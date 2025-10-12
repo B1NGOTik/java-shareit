@@ -1,11 +1,8 @@
 package ru.practicum.shareit.user;
 
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.exception.ConflictException;
-import ru.practicum.shareit.exception.ValidationEcxeption;
+import ru.practicum.shareit.exception.ValidationException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,7 +10,11 @@ import java.util.List;
 
 @Repository
 public class UserInMemoryStorage {
-    private final HashMap<Long, User> users = new HashMap<>();
+    private static final HashMap<Long, User> users = new HashMap<>();
+
+    public static boolean checkUser(Long userId) {
+        return users.containsKey(userId);
+    }
 
     public User createUser(User user) {
         emailCheck(user.getEmail());
@@ -32,11 +33,11 @@ public class UserInMemoryStorage {
 
     public User updateUser(User user, Long userId) {
         User updatingUser = users.get(userId);
-        if(user.getEmail()!=null){
+        if (user.getEmail() != null) {
             emailCheck(user.getEmail());
             updatingUser.setEmail(user.getEmail());
         }
-        if(user.getName()!=null) {
+        if (user.getName() != null) {
             updatingUser.setName(user.getName());
         }
         users.put(updatingUser.getId(), updatingUser);
@@ -59,14 +60,14 @@ public class UserInMemoryStorage {
     }
 
     private void emailCheck(String userEmail) {
-        if(userEmail.isBlank()){
-            throw new ValidationEcxeption("Отсутствует email");
+        if (userEmail.isBlank()) {
+            throw new ValidationException("Отсутствует email");
         }
-        if(!userEmail.contains("@")) {
-            throw new ValidationEcxeption("Неверный формат email");
+        if (!userEmail.contains("@")) {
+            throw new ValidationException("Неверный формат email");
         }
-        for(User user : users.values()) {
-            if(user.getEmail().equals(userEmail)) {
+        for (User user : users.values()) {
+            if (user.getEmail().equals(userEmail)) {
                 throw new ConflictException("Такой email уже зарегистрирован");
             }
         }

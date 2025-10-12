@@ -16,7 +16,6 @@ public class ItemDto {
         ItemDto itemDto = new ItemDto();
         itemDto.setName(item.getName());
         itemDto.setDescription(item.getDescription());
-        itemDto.setNumberOfUses(item.getNumberOfUses());
         return itemDto;
     }
 
@@ -24,7 +23,6 @@ public class ItemDto {
         Item item = new Item();
         item.setName(itemDto.getName());
         item.setDescription(itemDto.getDescription());
-        item.setNumberOfUses(itemDto.getNumberOfUses());
         return item;
     }
 }

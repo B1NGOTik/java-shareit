@@ -6,7 +6,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/users")
-public class  UserController {
+public class UserController {
     private final UserService service = new UserService();
 
     @PostMapping
