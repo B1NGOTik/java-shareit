@@ -29,7 +29,7 @@ public class ErrorHandler {
 
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public Map<String, String> ConflictHandler(ConflictException e) {
+    public Map<String, String> conflictHandler(ConflictException e) {
         log.info("NoContentException handled: {}", e.getMessage());
         return Map.of("error:", e.getMessage());
     }
