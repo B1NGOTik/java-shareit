@@ -1,16 +1,15 @@
 package ru.practicum.shareit.item.dto;
 
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 import ru.practicum.shareit.item.model.Item;
 
-/**
- * TODO Sprint add-controllers.
- */
 @Data
+@FieldDefaults
 public class ItemDto {
-    private String name;
-    private String description;
-    private Long numberOfUses;
+    String name;
+    String description;
+    Long numberOfUses;
 
     public static ItemDto mapFromItemToDto(Item item) {
         ItemDto itemDto = new ItemDto();

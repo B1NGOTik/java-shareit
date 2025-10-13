@@ -8,28 +8,29 @@ import java.util.List;
 @RestController
 @RequestMapping("/items")
 public class ItemController {
+    private static final String USER_ID_HEADER = "X-Sharer-User-Id";
     private final ItemService service = new ItemServiceImpl();
 
     @PostMapping
-    public Item createItem(@RequestBody Item item, @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public Item createItem(@RequestBody Item item, @RequestHeader(USER_ID_HEADER) Long userId) {
         return service.createItem(item, userId);
     }
 
     @PatchMapping("/{itemId}")
     public Item updateItem(@RequestBody Item item,
                            @PathVariable Long itemId,
-                           @RequestHeader("X-Sharer-User-Id") Long userId) {
+                           @RequestHeader(USER_ID_HEADER) Long userId) {
         return service.updateItem(item, itemId, userId);
     }
 
     @GetMapping("/{itemId}")
     public Item findItemById(@PathVariable Long itemId,
-                             @RequestHeader("X-Sharer-User-Id") Long userId) {
+                             @RequestHeader(USER_ID_HEADER) Long userId) {
         return service.getItemById(itemId, userId);
     }
 
     @GetMapping
-    public List<Item> findAllItemsOfUser(@RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<Item> findAllItemsOfUser(@RequestHeader(USER_ID_HEADER) Long userId) {
         return service.getAllItemsOfUser(userId);
     }
 

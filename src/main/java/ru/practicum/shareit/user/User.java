@@ -1,10 +1,12 @@
 package ru.practicum.shareit.user;
 
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 @Data
+@FieldDefaults
 public class User {
-    private Long id;
-    private String name;
-    private String email;
+    Long id;
+    String name;
+    String email;
 }
