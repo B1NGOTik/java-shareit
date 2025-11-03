@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS bookings (
     id BIGSERIAL PRIMARY KEY,
     item_id BIGINT REFERENCES items(id),
     booker_id BIGINT REFERENCES users(id),
-    start_date DATE,
-    end_date DATE,
+    start_date TIMESTAMP WITHOUT TIME ZONE,
+    end_date TIMESTAMP WITHOUT TIME ZONE,
     status VARCHAR(255)
 );
 
@@ -26,5 +26,5 @@ CREATE TABLE IF NOT EXISTS comments (
     item_id BIGINT REFERENCES items(id),
     user_id BIGINT REFERENCES users(id),
     comment_text VARCHAR(512),
-    created DATE
+    created TIMESTAMP WITHOUT TIME ZONE
 );
