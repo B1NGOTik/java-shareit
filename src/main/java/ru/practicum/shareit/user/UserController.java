@@ -1,13 +1,17 @@
 package ru.practicum.shareit.user;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.user.model.UserUpdateRequest;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping(path = "/users")
 public class UserController {
-    private final UserService service = new UserService();
+    private final UserService service;
 
     @PostMapping
     public User createUser(@RequestBody User user) {
@@ -21,16 +25,16 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public User findUserById(@PathVariable Long userId) {
-        return service.getUserById(userId);
+        return service.getUserById(userId).get();
     }
 
     @PatchMapping("/{userId}")
-    public User updateUser(@RequestBody User user, @PathVariable Long userId) {
+    public User updateUser(@RequestBody UserUpdateRequest user, @PathVariable Long userId) {
         return service.updateUser(user, userId);
     }
 
     @DeleteMapping("/{userId}")
-    public User removeUser(@PathVariable Long userId) {
-        return service.deleteUser(userId);
+    public void removeUser(@PathVariable Long userId) {
+        service.deleteUser(userId);
     }
 }
