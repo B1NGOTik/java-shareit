@@ -40,17 +40,17 @@ public class BookingService {
             booking = bookingRepository.findById(bookingId).get();
             Long ownerId = bookingRepository.findById(bookingId).get().getItem().getOwner().getId();
             if (!userId.equals(ownerId)) {
-                throw new ForbiddenException("У пользователя нет доступа к этому бронированию");
+                throw new ForbiddenException("Доступ к бронированию запрещен");
             }
         } else {
-            throw new NotFoundException("Бронирования с таким ID не существует");
+            throw new NotFoundException("Бронирование не найдено");
         }
         if (approved != null && approved) {
             booking.setStatus(BookingStatus.APPROVED);
         } else if (approved != null) {
             booking.setStatus(BookingStatus.REJECTED);
         } else {
-            throw new ValidationException("Не выбрано действие согласования");
+            throw new ValidationException("Действие согласования не указано");
         }
         return bookingRepository.save(booking);
     }
@@ -65,19 +65,19 @@ public class BookingService {
 
     private void validateBooking(Long userId, BookingCreateRequest booking) {
         if (userRepository.findById(userId).isEmpty()) {
-            throw new NotFoundException("Пользователя с таким id не существует");
+            throw new NotFoundException("Пользователь не найден");
         }
         if (booking.getStart().isBefore(LocalDateTime.now()) || booking.getStart() == null || booking.getStart().equals(booking.getEnd())) {
-            throw new RuntimeException("Неверная дата начала аренды");
+            throw new RuntimeException("Некорректная дата начала бронирования");
         }
         if (booking.getEnd().isBefore(LocalDateTime.now()) || booking.getEnd() == null || booking.getEnd().equals(booking.getStart())) {
-            throw new RuntimeException("Неверная дата конца аренды");
+            throw new RuntimeException("Некорректная дата окончания бронирования");
         }
         Item item;
         if (itemRepository.findById(booking.getItemId()).isPresent()) {
             item = itemRepository.findById(booking.getItemId()).get();
         } else {
-            throw new NotFoundException("Предмета с таким Id не существует");
+            throw new NotFoundException("Предмет не найден");
         }
         if (!item.getAvailable()) {
             throw new ValidationException("Предмет недоступен для бронирования");

@@ -32,7 +32,7 @@ public class ItemService {
         if (userRepository.findById(userId).isPresent()) {
             creatingItem.setOwner(userRepository.findById(userId).get());
         } else {
-            throw new NotFoundException("Пользователя с таким id не существует");
+            throw new NotFoundException("Пользователь не найден");
         }
         creatingItem.setName(item.getName());
         creatingItem.setDescription(item.getDescription());
@@ -43,11 +43,11 @@ public class ItemService {
 
     public ItemDto updateItem(ItemUpdateRequest item, Long itemId, Long userId) {
         if (userRepository.findById(userId).isEmpty()) {
-            throw new NotFoundException("Такого пользователя не существует");
+            throw new NotFoundException("Пользователь не найден");
         }
         Item existingItem = itemRepository.findById(itemId).get();
         if (!existingItem.getOwner().equals(userRepository.findById(userId).get())) {
-            throw new ForbiddenException("У пользователя нет доступа к изменению этого предмета");
+            throw new ForbiddenException("Доступ к изменению предмета запрещен");
         }
         if (item.hasName()) {
             existingItem.setName(item.getName());
@@ -98,7 +98,7 @@ public class ItemService {
                                 booking.getStatus().equals(BookingStatus.APPROVED));
 
         if (!hasCompletedBooking) {
-            throw new ValidationException("Нельзя оставить комментарий к предмету, который вы не бронировали или бронирование еще не завершено");
+            throw new ValidationException("Нельзя оставить комментарий к предмету без завершенного бронирования");
         }
 
         Comment creatingComment = new Comment();
