@@ -15,15 +15,15 @@ public class ItemRequestDto {
     Long id;
     String description;
     Long creatorId;
-    LocalDateTime createdAt;
-    List<ItemResponseDto> responses;
+    LocalDateTime created;
+    List<ItemResponseDto> items;
 
     public static ItemRequestDto toDto(ItemRequest request) {
         ItemRequestDto dto = new ItemRequestDto();
         dto.setId(request.getId());
         dto.setDescription(request.getDescription());
         dto.setCreatorId(request.getCreator().getId());
-        dto.setCreatedAt(request.getCreatedAt());
+        dto.setCreated(request.getCreated());
         return dto;
     }
 }

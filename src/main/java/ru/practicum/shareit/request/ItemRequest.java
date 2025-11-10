@@ -29,5 +29,5 @@ public class ItemRequest {
     String description;
 
     @Column(name = "created")
-    LocalDateTime createdAt;
+    LocalDateTime created;
 }

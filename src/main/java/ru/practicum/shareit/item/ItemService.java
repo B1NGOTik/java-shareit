@@ -37,6 +37,9 @@ public class ItemService {
         creatingItem.setName(item.getName());
         creatingItem.setDescription(item.getDescription());
         creatingItem.setAvailable(item.getAvailable());
+        if(item.hasRequestId()) {
+            creatingItem.setRequestId(item.getRequestId());
+        }
         itemRepository.save(creatingItem);
         return new ItemDto(creatingItem);
     }

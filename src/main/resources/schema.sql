@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS users (
+/*CREATE TABLE IF NOT EXISTS users (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(255),
     email VARCHAR(255) UNIQUE
@@ -35,4 +35,4 @@ CREATE TABLE IF NOT EXISTS requests (
     creator_id REFERENCES users(id),
     description VARCHAR(512),
     created TIMESTAMP WITHOUT TIME ZONE
-)
+)*/
