@@ -27,4 +27,7 @@ public class Item {
 
     @Column(name = "available", nullable = false)
     Boolean available;
+
+    @Column(name = "request_id")
+    Long requestId;
 }

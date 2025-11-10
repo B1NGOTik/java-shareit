@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS items (
     name VARCHAR(255),
     description VARCHAR(512),
     owner_id BIGINT REFERENCES users(id),
-    available BOOLEAN NOT NULL
+    available BOOLEAN NOT NULL,
+    request_id BIGINT REFERENCES requests(id)
 );
 
 CREATE TABLE IF NOT EXISTS bookings (
@@ -28,3 +29,10 @@ CREATE TABLE IF NOT EXISTS comments (
     comment_text VARCHAR(512),
     created TIMESTAMP WITHOUT TIME ZONE
 );
+
+CREATE TABLE IF NOT EXISTS requests (
+    id BIGSERIAL PRIMARY KEY,
+    creator_id REFERENCES users(id),
+    description VARCHAR(512),
+    created TIMESTAMP WITHOUT TIME ZONE
+)
