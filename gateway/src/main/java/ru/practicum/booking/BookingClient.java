@@ -31,7 +31,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> approveBooking(Long userId, Boolean approved, Long bookingId) {
-        if(approved.describeConstable().isEmpty()) {
+        if (approved.describeConstable().isEmpty()) {
             throw new ValidationException("Действие согласования не указано");
         }
         return patch("/" + bookingId + "?approved=" + approved, userId, approved);
