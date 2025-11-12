@@ -6,8 +6,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.request.dto.RequestDto;
 
-import java.util.List;
-
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -17,7 +15,7 @@ public class ItemRequestGatewayController {
     private final ItemRequestClient client;
 
     @PostMapping
-    public ResponseEntity<Object> createRequest(@RequestHeader(USER_ID_HEADER) Long userId, @RequestBody RequestDto request){
+    public ResponseEntity<Object> createRequest(@RequestHeader(USER_ID_HEADER) Long userId, @RequestBody RequestDto request) {
         return client.createRequest(userId, request);
     }
 

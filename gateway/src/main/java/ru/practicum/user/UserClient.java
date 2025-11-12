@@ -8,6 +8,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.client.BaseClient;
+import ru.practicum.exception.ValidationException;
 import ru.practicum.user.dto.UpdateUserDto;
 import ru.practicum.user.dto.UserDto;
 
@@ -19,13 +20,14 @@ public class UserClient extends BaseClient {
     public UserClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl+API_PREFIX))
+                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
                         .requestFactory(() -> new HttpComponentsClientHttpRequestFactory())
                         .build()
         );
     }
 
     public ResponseEntity<Object> createUser(UserDto user) {
+        validateUser(user);
         return post("", user);
     }
 
@@ -34,14 +36,20 @@ public class UserClient extends BaseClient {
     }
 
     public ResponseEntity<Object> findUserById(Long userId) {
-        return get("/"+userId);
+        return get("/" + userId);
     }
 
     public ResponseEntity<Object> updateUser(UpdateUserDto user, Long userId) {
-        return patch("/"+userId, user);
+        return patch("/" + userId, user);
     }
 
     public ResponseEntity<Object> removeUser(Long userId) {
-        return delete("/"+userId);
+        return delete("/" + userId);
+    }
+
+    private void validateUser(UserDto user) {
+        if (!user.getEmail().contains("@")) {
+            throw new ValidationException("Неверный формат email");
+        }
     }
 }

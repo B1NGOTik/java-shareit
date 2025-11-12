@@ -27,7 +27,6 @@ public class ItemService {
     private final CommentRepository commentRepository;
 
     public ItemDto createItem(ItemCreateRequest item, Long userId) {
-        validateItem(item);
         Item creatingItem = new Item();
         if (userRepository.findById(userId).isPresent()) {
             creatingItem.setOwner(userRepository.findById(userId).get());
@@ -37,7 +36,7 @@ public class ItemService {
         creatingItem.setName(item.getName());
         creatingItem.setDescription(item.getDescription());
         creatingItem.setAvailable(item.getAvailable());
-        if(item.hasRequestId()) {
+        if (item.hasRequestId()) {
             creatingItem.setRequestId(item.getRequestId());
         }
         itemRepository.save(creatingItem);
@@ -112,18 +111,6 @@ public class ItemService {
 
         commentRepository.save(creatingComment);
         return new CommentDto(creatingComment);
-    }
-
-    private void validateItem(ItemCreateRequest item) {
-        if (!item.hasAvailable()) {
-            throw new ValidationException("Поле доступности должно быть заполнено");
-        }
-        if (!item.hasName()) {
-            throw new ValidationException("Поле с названием предмета должно быть заполнено");
-        }
-        if (!item.hasDescription()) {
-            throw new ValidationException("Поле с описанием предмета должно быть заполнено");
-        }
     }
 
     private ItemDto getCommentsForItem(Item item) {

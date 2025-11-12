@@ -8,8 +8,6 @@ import ru.practicum.item.dto.CommentDto;
 import ru.practicum.item.dto.ItemCreateDto;
 import ru.practicum.item.dto.ItemUpdateDto;
 
-import java.util.List;
-
 @Validated
 @RestController
 @RequiredArgsConstructor
@@ -25,14 +23,14 @@ public class ItemGatewayController {
 
     @PatchMapping("/{itemId}")
     public ResponseEntity<Object> updateItem(@RequestBody ItemUpdateDto item,
-                              @PathVariable Long itemId,
-                              @RequestHeader(USER_ID_HEADER) Long userId) {
+                                             @PathVariable Long itemId,
+                                             @RequestHeader(USER_ID_HEADER) Long userId) {
         return client.updateItem(item, userId, itemId);
     }
 
     @GetMapping("/{itemId}")
     public ResponseEntity<Object> findItemById(@PathVariable Long itemId,
-                                @RequestHeader(USER_ID_HEADER) Long userId) {
+                                               @RequestHeader(USER_ID_HEADER) Long userId) {
         return client.findItemById(userId, itemId);
     }
 
@@ -48,8 +46,8 @@ public class ItemGatewayController {
 
     @PostMapping("/{itemId}/comment")
     public ResponseEntity<Object> addComment(@RequestBody CommentDto comment,
-                                 @PathVariable Long itemId,
-                                 @RequestHeader(USER_ID_HEADER) Long userId) {
+                                             @PathVariable Long itemId,
+                                             @RequestHeader(USER_ID_HEADER) Long userId) {
         return client.addComment(comment, itemId, userId);
     }
 }

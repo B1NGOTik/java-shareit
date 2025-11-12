@@ -17,7 +17,6 @@ public class UserService {
     private final UserRepository repository;
 
     public User createUser(User user) {
-        validateUser(user);
         return repository.save(user);
     }
 
@@ -42,11 +41,5 @@ public class UserService {
 
     public void deleteUser(Long id) {
         repository.deleteById(id);
-    }
-
-    private void validateUser(User user) {
-        if (!user.getEmail().contains("@")) {
-            throw new ValidationException("Неверный формат email");
-        }
     }
 }

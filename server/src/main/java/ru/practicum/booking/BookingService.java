@@ -49,8 +49,6 @@ public class BookingService {
             booking.setStatus(BookingStatus.APPROVED);
         } else if (approved != null) {
             booking.setStatus(BookingStatus.REJECTED);
-        } else {
-            throw new ValidationException("Действие согласования не указано");
         }
         return bookingRepository.save(booking);
     }
@@ -64,7 +62,7 @@ public class BookingService {
     }
 
     public List<Booking> findAllOwnerBookings(Long userId) {
-        if(userRepository.findById(userId).isEmpty()) {
+        if (userRepository.findById(userId).isEmpty()) {
             throw new NotFoundException("Пользователь не найден");
         }
         return bookingRepository.findByItemOwnerIdOrderByStartDesc(userId);
@@ -73,12 +71,6 @@ public class BookingService {
     private void validateBooking(Long userId, BookingCreateRequest booking) {
         if (userRepository.findById(userId).isEmpty()) {
             throw new NotFoundException("Пользователь не найден");
-        }
-        if (booking.getStart().isBefore(LocalDateTime.now()) || booking.getStart() == null || booking.getStart().equals(booking.getEnd())) {
-            throw new RuntimeException("Некорректная дата начала бронирования");
-        }
-        if (booking.getEnd().isBefore(LocalDateTime.now()) || booking.getEnd() == null || booking.getEnd().equals(booking.getStart())) {
-            throw new RuntimeException("Некорректная дата окончания бронирования");
         }
         Item item;
         if (itemRepository.findById(booking.getItemId()).isPresent()) {

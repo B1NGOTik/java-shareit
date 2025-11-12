@@ -14,7 +14,7 @@ public class ItemRequestController {
     private final ItemRequestService service;
 
     @PostMapping
-    public ItemRequestDto createRequest(@RequestHeader(USER_ID_HEADER) Long userId, @RequestBody ItemRequest request){
+    public ItemRequestDto createRequest(@RequestHeader(USER_ID_HEADER) Long userId, @RequestBody ItemRequest request) {
         return service.createRequest(userId, request);
     }
 

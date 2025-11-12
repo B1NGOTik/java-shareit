@@ -12,6 +12,7 @@ import ru.practicum.request.dto.RequestDto;
 @Service
 public class ItemRequestClient extends BaseClient {
     public static final String API_PREFIX = "/requests";
+
     public ItemRequestClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
@@ -21,15 +22,15 @@ public class ItemRequestClient extends BaseClient {
         );
     }
 
-    public ResponseEntity<Object> createRequest(Long userId, RequestDto request){
+    public ResponseEntity<Object> createRequest(Long userId, RequestDto request) {
         return post("", userId, request);
     }
 
-    public ResponseEntity<Object> findRequestsByCreatorId(Long userId){
+    public ResponseEntity<Object> findRequestsByCreatorId(Long userId) {
         return get("", userId);
     }
 
-    public ResponseEntity<Object> findRequestById(Long requestId){
-        return get("/"+requestId);
+    public ResponseEntity<Object> findRequestById(Long requestId) {
+        return get("/" + requestId);
     }
 }

@@ -11,4 +11,20 @@ public class ItemCreateDto {
     String description;
     Boolean available;
     Long requestId;
+
+    public boolean hasName() {
+        return !(name == null || name.isBlank());
+    }
+
+    public boolean hasDescription() {
+        return !(description == null || description.isBlank());
+    }
+
+    public boolean hasAvailable() {
+        return available != null;
+    }
+
+    public boolean hasRequestId() {
+        return requestId != null && requestId != 0;
+    }
 }

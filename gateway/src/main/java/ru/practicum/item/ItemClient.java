@@ -1,6 +1,6 @@
 package ru.practicum.item;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.ValidationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
@@ -26,27 +26,40 @@ public class ItemClient extends BaseClient {
     }
 
     public ResponseEntity<Object> createItem(ItemCreateDto item, Long userId) {
+        validateItem(item);
         return post("", userId, item);
     }
 
     public ResponseEntity<Object> updateItem(ItemUpdateDto item, Long userId, Long itemId) {
-        return patch("/"+itemId,userId,item);
+        return patch("/" + itemId, userId, item);
     }
 
     public ResponseEntity<Object> findItemById(Long userId, Long itemId) {
-        return get("/"+itemId, userId);
+        return get("/" + itemId, userId);
     }
 
     public ResponseEntity<Object> findAllItemsOfUser(Long userId) {
         return get("", userId);
     }
 
-    public ResponseEntity<Object> searchItem(String text){
-        return get("/search?text="+text);
+    public ResponseEntity<Object> searchItem(String text) {
+        return get("/search?text=" + text);
     }
 
-    public ResponseEntity<Object> addComment(CommentDto comment, Long itemId, Long userId){
-        return post("/"+itemId+"/comment", userId, comment);
+    public ResponseEntity<Object> addComment(CommentDto comment, Long itemId, Long userId) {
+        return post("/" + itemId + "/comment", userId, comment);
+    }
+
+    private void validateItem(ItemCreateDto item) {
+        if (!item.hasAvailable()) {
+            throw new ValidationException("Поле доступности должно быть заполнено");
+        }
+        if (!item.hasName()) {
+            throw new ValidationException("Поле с названием предмета должно быть заполнено");
+        }
+        if (!item.hasDescription()) {
+            throw new ValidationException("Поле с описанием предмета должно быть заполнено");
+        }
     }
 }
 
