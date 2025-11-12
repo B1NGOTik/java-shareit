@@ -62,7 +62,7 @@ public class BookingService {
 
     public List<Booking> findAllOwnerBookings(Long userId) {
         if (userRepository.findById(userId).isEmpty()) {
-            throw new NotFoundException("Пользователь не найден");
+            throw new NotFoundException(String.format("Пользователь c id %d не найден", userId));
         }
         return bookingRepository.findByItemOwnerIdOrderByStartDesc(userId);
     }

@@ -15,10 +15,10 @@ import ru.practicum.user.dto.UserDto;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserGatewayController {
-
+    private static final String USER_ID_PATH = "/{id}";
     private final UserClient userClient;
 
-    @GetMapping("/{id}")
+    @GetMapping(USER_ID_PATH)
     public ResponseEntity<Object> getUserById(@PathVariable @Positive Long id) {
         return userClient.findUserById(id);
     }
@@ -34,12 +34,12 @@ public class UserGatewayController {
         return userClient.createUser(user);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping(USER_ID_PATH)
     public ResponseEntity<Object> updateUser(@PathVariable @Positive Long id, @RequestBody @Valid UpdateUserDto user) {
         return userClient.updateUser(user, id);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(USER_ID_PATH)
     public void deleteUserById(@PathVariable @Positive Long id) {
         userClient.removeUser(id);
     }
